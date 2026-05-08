@@ -1,0 +1,17 @@
+AUTHORS
+=======
+
+libftd3xx-ffi (SERMA Safety & Security fork) — maintained by
+SERMA Safety & Security.
+
+Modifications credited under initials only:
+
+  FCH — initial implementation, build.rs refactor, Linux x86_64
+        vendor + bindings, Windows x86_64 vendor + bindings,
+        CONFIGURATION_* enum exposure.
+  IDU — Windows x86_64 bindings, fixes & polish, dynamic-linking
+        README updates.
+
+Upstream attribution:
+  ftdi-rs/libftd3xx-ffi maintainers — see NOTICE for the upstream
+  license terms preserved in this fork.

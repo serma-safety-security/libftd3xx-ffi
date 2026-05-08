@@ -1,0 +1,22 @@
+[package]
+name = "libftd3xx-ffi"
+version = "0.1.0"
+edition = "2021"
+description = "Rust FFI bindings to the FTDI D3XX drivers (SERMA fork of ftdi-rs/libftd3xx-ffi)."
+keywords = ["ftdi", "ffi", "usb"]
+categories = ["external-ffi-bindings"]
+readme = "README.md"
+repository = "https://github.com/serma-safety-security/libftd3xx-ffi"
+homepage = "https://github.com/serma-safety-security/libftd3xx-ffi"
+authors = ["SERMA Safety & Security <hardsploit@serma-safety-security.com>"]
+license-file = "LICENSE"
+
+[dependencies]
+cfg-if = "1.0"
+
+[build-dependencies]
+bindgen = { version = "0.61", optional = true }
+
+[features]
+static = []
+bindgen = ["dep:bindgen"]

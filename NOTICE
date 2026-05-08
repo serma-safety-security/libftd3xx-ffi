@@ -1,0 +1,33 @@
+libftd3xx-ffi (SERMA Safety & Security fork)
+=============================================
+
+This project is a fork of github.com/ftdi-rs/libftd3xx-ffi, originally
+authored by the ftdi-rs maintainers under the MIT/0BSD dual license.
+Modifications by SERMA Safety & Security (2024-2026).
+
+The non-vendor source code in this repository is dual-licensed MIT/0BSD
+at your option, in keeping with the upstream license. See LICENSE for
+the full text of both license options.
+
+FTDI D3XX driver redistribution
+-------------------------------
+
+The FTDI D3XX driver libraries vendored under vendor/ are redistributed
+in unmodified form per the FTDI Driver Licence Terms:
+
+  https://ftdichip.com/driver-licence-terms-details/
+
+The vendor/ directory contains FTDI's proprietary driver headers, sample
+code, and binary libraries (static + dynamic) for Linux x86_64 and
+Windows (x86 + x86_64).
+
+Downstream products that ship a binary statically linked against this
+crate must include the FTDI license notice in their product's about/
+legal screen or accompanying documentation, in keeping with the FTDI
+Driver Licence Terms.
+
+Trademarks
+----------
+
+FTDI and the FTDI logo are trademarks of Future Technology Devices
+International Limited. This crate is not affiliated with FTDI.
