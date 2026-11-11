@@ -19,6 +19,13 @@ fn main() {
     let os = env::var("CARGO_CFG_TARGET_OS").unwrap();
     let arch = env::var("CARGO_CFG_TARGET_ARCH").unwrap();
 
+    // `emulation`: another crate of the final binary defines every D3XX function (a shim with
+    // `#[no_mangle]` definitions of the same names and signatures), so this crate must not link
+    // the vendor library, statically or dynamically, nor add its directory to the search path.
+    // It takes precedence over `static`, so that enabling it anywhere in a build (Cargo unifies
+    // features) removes the vendor library from the whole binary.
+    let emulation = cfg!(feature = "emulation");
+
     let mut header: PathBuf;
     let mut search: PathBuf = env::current_dir().unwrap();
     search.push("vendor");
@@ -36,7 +43,7 @@ fn main() {
             header = search.clone();
 
             header.push("ftd3xx.h");
-            link_lib = if cfg!(feature = "static") {
+            link_lib = if cfg!(feature = "static") && !emulation {
                 // FIXME: It seems rustc needs to dynamically link with stdc++ to avoid
                 // "undefined reference to `vtable for __cxxabiv1::__class_type_info'" errors
                 println!("cargo:rustc-link-search=native=/usr/lib");
@@ -72,12 +79,16 @@ fn main() {
         other => panic!("OS {} is not supported", other),
     }
 
-    println!(
-        "cargo:rustc-link-search=native={}",
-        search.to_str().unwrap()
-    );
+    if emulation {
+        println!("cargo:emulation=1");
+    } else {
+        println!(
+            "cargo:rustc-link-search=native={}",
+            search.to_str().unwrap()
+        );
 
-    println!("cargo:rustc-link-lib={}", link_lib);
+        println!("cargo:rustc-link-lib={}", link_lib);
+    }
 
     println!("cargo:rerun-if-changed={}", header.to_str().unwrap());
 

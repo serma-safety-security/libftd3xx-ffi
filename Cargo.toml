@@ -1,6 +1,6 @@
 [package]
 name = "libftd3xx-ffi"
-version = "0.1.0"
+version = "0.1.1"
 edition = "2021"
 description = "Rust FFI bindings to the FTDI D3XX drivers (SERMA fork of ftdi-rs/libftd3xx-ffi)."
 keywords = ["ftdi", "ffi", "usb"]
@@ -10,6 +10,9 @@ repository = "https://github.com/serma-safety-security/libftd3xx-ffi"
 homepage = "https://github.com/serma-safety-security/libftd3xx-ffi"
 authors = ["SERMA Safety & Security <hardsploit@serma-safety-security.com>"]
 license-file = "LICENSE"
+# One crate in a build may link the vendor D3XX library: Cargo refuses a second copy of these
+# bindings (another version, or another fork) in the same dependency graph.
+links = "ftd3xx"
 
 [dependencies]
 cfg-if = "1.0"
@@ -19,4 +22,8 @@ bindgen = { version = "0.61", optional = true }
 
 [features]
 static = []
+# Emit no link directive at all: the D3XX symbols are provided by another crate of the final
+# binary (an emulation shim exporting the same `#[no_mangle]` functions). Takes precedence over
+# `static`.
+emulation = []
 bindgen = ["dep:bindgen"]

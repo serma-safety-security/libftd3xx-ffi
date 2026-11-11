@@ -43,6 +43,21 @@ Static linking may be preferred, however there may be license
 incompatibilities (static linking with GPL code).
 If in doubt, check the FTDI [driver license terms].
 
+### Emulation (no vendor library)
+With the `emulation` feature the build script emits no link directive at all, not even with
+`static`: another crate of the final binary must define every D3XX function this crate declares,
+with the same names and C signatures (for example a shim that implements them over TCP for an
+emulator). Cargo unifies features, so enabling it anywhere in a build removes the vendor library
+from the whole binary.
+```toml
+[dependencies]
+libftd3xx-ffi = { version = "0.1", features = ["static"] }
+
+[features]
+d3xx-emulation = ["libftd3xx-ffi/emulation"]
+```
+The package declares `links = "ftd3xx"`, so a build cannot contain two copies of these bindings.
+
 ### Dynamic Linking
 
 ⚠️  Under Windows, you must place the .dll file next to your executables !
